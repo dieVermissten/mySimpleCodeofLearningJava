@@ -13,9 +13,9 @@ import java.util.zip.ZipFile;
 public class Main {
     public static void main(String[] args) {
         String filepath="C:\\Users\\Administrator\\Desktop\\q.xlsx";
-        String zipXmlSheetPattern="xl/worksheets/sheet";
+        String zipXmlSheetPattern="xl/worksheets/sheet";//主要是这个文件和下面的文件
         String zipXmlSharedStringPattern="xl/sharedStrings.xml";
-        try (ZipFile zipFile= new ZipFile(filepath, Charset.forName("utf-8"))){
+        try (ZipFile zipFile= new ZipFile(filepath, Charset.forName("utf-8"))){ 创建个zipfile 字符编码设置为utf-8 手动设置成这个比较好 不然总会有乱码
             for (Enumeration ez=zipFile.entries();
                     ez.hasMoreElements();) {
                 ZipEntry zipEntry = (ZipEntry)ez.nextElement();
