@@ -1,0 +1,62 @@
+import org.xml.sax.*;
+import org.xml.sax.helpers.DefaultHandler;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+public class Main {
+    public static void main(String[] args) {
+        String filepath="C:\\Users\\Administrator\\Desktop\\q.xlsx";
+        String zipXmlSheetPattern="xl/worksheets/sheet";
+        String zipXmlSharedStringPattern="xl/sharedStrings.xml";
+        try (ZipFile zipFile= new ZipFile(filepath, Charset.forName("utf-8"))){
+            for (Enumeration ez=zipFile.entries();
+                    ez.hasMoreElements();) {
+                ZipEntry zipEntry = (ZipEntry)ez.nextElement();
+                String s = zipEntry.getName();
+                if (/*s.contains(zipXmlSheetPattern)||*/
+                        s.contains(zipXmlSharedStringPattern)
+                ){
+                    System.out.println(zipEntry.getName());
+
+                    try(InputStream is=zipFile.getInputStream(zipEntry);
+                    ) {
+                        SAXParserFactory saxParserFactory = SAXParserFactory.newDefaultInstance();//SAXParserFactory.newInstance();
+                        SAXParser saxParser = saxParserFactory.newSAXParser();
+                        Map<Integer,String> xmlSharedStringmap=new HashMap<>();
+                        saxParser.parse(is,new DefaultHandler(){
+                            int num = 1;
+                            @Override
+                            public void characters(char[] ch, int start, int length) throws SAXException {
+                                super.characters(ch, start, length);
+                                System.out.println((num++)+" "+new String(ch,start,length));
+                                xmlSharedStringmap.put(num++,new String(ch,start,length));
+                            }
+
+                            @Override
+                            public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+                                super.startElement(uri, localName, qName, attributes);
+                                if (qName=="si")num--;
+
+                            }
+
+                        });
+
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+}
