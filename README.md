@@ -1,7 +1,7 @@
 # mySimpleCodeofLearningJava
-excel2007(.xlsx) is exactly a zip file.A xlsx file include entries when decompress
-[Content_Types].xml
-_rels/
+excel2007(.xlsx) is exactly a zip file.A xlsx file include entries when decompress/n
+[Content_Types].xml /n
+_rels/ /n
 _rels/.rels
 docProps/
 docProps/app.xml
