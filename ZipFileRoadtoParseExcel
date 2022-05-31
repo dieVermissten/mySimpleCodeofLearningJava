@@ -31,7 +31,7 @@ public class Main {
                         SAXParser saxParser = saxParserFactory.newSAXParser();
                         Map<Integer,String> xmlSharedStringmap=new HashMap<>();
                         saxParser.parse(is,new DefaultHandler(){
-                            int num = 1;
+                            int num = 1;//这是个计数器 不知道sax里面有没有计数器 先这么写着
                             @Override
                             public void characters(char[] ch, int start, int length) throws SAXException {
                                 super.characters(ch, start, length);
@@ -42,12 +42,11 @@ public class Main {
                             @Override
                             public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
                                 super.startElement(uri, localName, qName, attributes);
-                                if (qName=="si")num--;
+                                if (qName=="si")num--;//xml格式是 <si><t>value</t></si> 要取出t里面的就要num-1不然序号会空一格数字10，12，14这样子
 
                             }
 
                         });
-
 
                     }catch (Exception e){
                         e.printStackTrace();
