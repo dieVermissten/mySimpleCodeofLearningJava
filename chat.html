@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        div {
+            /* div内自动换行 */
+            word-break: break-all;
+            /* div内容增加提供滚动条 */
+
+            user-select: none;
+            border-style: none;
+        }
+
+        .isay {
+            margin: 2px;
+            border-radius: 2px;
+            font-size: smaller;
+            font-weight: 900;
+            font-family: 'Monaco', Monaco, Monaco;
+            left: 10px;
+            /* fit content auto */
+            width: fit-content;
+            /* max width */
+            max-width: 50%;
+        }
+
+
+        .time {
+            font-size: 1px;
+            font-style: oblique;
+            font-weight: 0.1;
+            border-top: 1px solid sienna;
+            width: fit-content;
+            max-width: 50%;
+        }
+
+
+        textarea {
+            outline: none;
+            margin-top: 1%;
+            border-radius: 5px;
+            border-style: none;
+            background-color: rgb(185, 228, 233);
+            resize: none;
+            user-select: none;
+            width: 49.5%;
+            font-size: small;
+            font-weight: bold;
+            font-family: 'Monaco', Monaco, Monaco;
+        }
+
+        #chartcontent {
+            width: 50%;
+            height: 300px;
+            border-style: none;
+            background-color: rgb(240, 232, 248);
+            overflow: auto;
+            scrollbar-color: rgb(240, 232, 248);
+            scroll-margin: 1px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChartChart</title>
+</head>
+
+<body>
+    <div id="chartcontent"></div>
+    <div id="chart">
+        <textarea placeholder="Type content HERE,Press ENTER to Send..." wrap="hard" id="inputcontent"></textarea>
+    </div>
+</body>
+
+<script src="/Rider.js"></script>
+<script>
+    window.onload = () => {
+        let inputcontent = document.querySelector("#inputcontent");
+        let chartcontent = document.querySelector("#chartcontent");
+        inputcontent.addEventListener("keypress", (e) => {
+            let times = new Date();
+            times = times.getFullYear()
+                + "." + times.getMonth()
+                + "." + times.getDay()
+                + " " + times.getHours()
+                + ":" + times.getMinutes();
+            if (e.key === "Enter") {
+                if (inputcontent.value.trim() !== '') {
+                    e.preventDefault();
+                    const r = new Rider(
+                        {
+                            mount: "#chartcontent",
+                            ele: ["div,class=time", "div,class=isay"],
+                            content: [times, inputcontent.value],
+                        }
+                    )
+                    inputcontent.value = ""
+                }
+            }
+        })
+    }
+</script>
+
+</html>
