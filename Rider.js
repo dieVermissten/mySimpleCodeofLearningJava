@@ -9,7 +9,6 @@
 //             //content: "hello,world",
 //         }
 //     )
-
 // }
 class Rider {
     constructor(element) {
